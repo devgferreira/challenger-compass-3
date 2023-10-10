@@ -1,10 +1,10 @@
-package br.gabriel.souto.msemployee;
+package br.gabriel.souto.eurekaserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsEmployeeApplicationTests {
+class EurekaServerApplicationTests {
 
 	@Test
 	void contextLoads() {
