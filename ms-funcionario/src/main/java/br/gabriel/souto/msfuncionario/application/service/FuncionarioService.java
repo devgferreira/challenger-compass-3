@@ -25,4 +25,9 @@ public class FuncionarioService implements IFuncionarioService {
         Funcionario funcionario = _modelMapper.map(funcionarioDTO, Funcionario.class);
         return _modelMapper.map(_funcionarioRepository.save(funcionario), FuncionarioDTO.class);
     }
+
+    @Override
+    public FuncionarioDTO buscarFuncionarioPorId(Long id) {
+        return _modelMapper.map(_funcionarioRepository.findById(id).orElse(new Funcionario()), FuncionarioDTO.class);
+    }
 }
