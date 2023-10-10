@@ -6,10 +6,7 @@ import br.gabriel.souto.msfuncionario.domain.model.funcionario.response.Funciona
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/funcionarios")
@@ -27,5 +24,11 @@ public class FuncionarioController {
         FuncionarioDTO funcionario =  _funcionarioService.criarFuncionario(funcionarioDTO);
         FuncionarioResponse funcionarioResponse = new FuncionarioResponse(funcionario);
         return new ResponseEntity<>(funcionarioResponse, HttpStatus.CREATED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<FuncionarioResponse> buscarFuncionarioPorId(@PathVariable Long id){
+        FuncionarioDTO funcionario = _funcionarioService.buscarFuncionarioPorId(id);
+        FuncionarioResponse funcionarioResponse = new FuncionarioResponse(funcionario);
+        return ResponseEntity.ok(funcionarioResponse);
     }
 }
