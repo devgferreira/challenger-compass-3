@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class MsCloudGatewayApplication {
+public class MsGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MsCloudGatewayApplication.class, args);
+        SpringApplication.run(MsGatewayApplication.class, args);
     }
 
     @Bean
