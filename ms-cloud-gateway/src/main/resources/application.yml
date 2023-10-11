@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-cloud-gateway
+    name: ms-gateway
   cloud:
     gateway:
       locator:

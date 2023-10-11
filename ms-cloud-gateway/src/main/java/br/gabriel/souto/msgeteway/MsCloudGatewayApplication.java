@@ -1,4 +1,4 @@
-package br.com.mscloudgateway;
+package br.gabriel.souto.msgeteway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,15 +11,15 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 public class MsCloudGatewayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MsCloudGatewayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MsCloudGatewayApplication.class, args);
+    }
 
-	@Bean
-	public RouteLocator routeLocator(RouteLocatorBuilder builder){
-		return builder.routes()
-				.route(r -> r.path("/funcionarios/**").uri("lb://ms-clientes"))
-				.route(r -> r.path("/propostas/**").uri("lb://ms-cartoes"))
-				.build();
-	}
+    @Bean
+    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route(r -> r.path("/funcionarios/**").uri("lb://ms-clientes"))
+                .route(r -> r.path("/propostas/**").uri("lb://ms-cartoes"))
+                .build();
+    }
 }

@@ -3,7 +3,7 @@ spring:
     name: ms-funcionarios
 
 server:
-  port: 8080
+  port: 0
 
 
 eureka:

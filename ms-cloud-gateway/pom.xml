@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.4</version>
+		<version>3.0.11</version>
 		<relativePath/>
 	</parent>
-	<groupId>br.com</groupId>
-	<artifactId>ms-cloud-gateway</artifactId>
+	<groupId>br.gabriel.souto</groupId>
+	<artifactId>ms-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ms-cloud-gateway</name>
-	<description>Cloud Gateway</description>
+	<name>ms-gateway</name>
+	<description>Api para a descoberta de APIs </description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
