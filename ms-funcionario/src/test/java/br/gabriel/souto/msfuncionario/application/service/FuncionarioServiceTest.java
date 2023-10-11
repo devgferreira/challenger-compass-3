@@ -44,5 +44,20 @@ class FuncionarioServiceTest {
 
         assertEquals(result, funcionarioDTO);
     }
+    @Test
+    void criarFuncionario_ComCpf_Existente() {
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
+        funcionarioDTO.setCpf("12345678901");
+
+        Funcionario funcionario = new Funcionario();
+        funcionario.setCpf("12345678901");
+
+        when(_modelMapper.map(funcionarioDTO, Funcionario.class)).thenReturn(funcionario);
+        when(_funcionarioRepository.findFuncionarioByCpf(anyString())).thenReturn(Optional.of(funcionario));
+
+        assertThrows(FuncionarioJaExisteExeception.class, () -> {
+            _funcionarioService.criarFuncionario(funcionarioDTO);
+        });
+    }
 
 }
