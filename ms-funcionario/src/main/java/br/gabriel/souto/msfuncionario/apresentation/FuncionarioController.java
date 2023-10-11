@@ -25,7 +25,7 @@ public class FuncionarioController {
         FuncionarioResponse funcionarioResponse = new FuncionarioResponse(funcionario);
         return new ResponseEntity<>(funcionarioResponse, HttpStatus.CREATED);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/{cpf}")
     public ResponseEntity<FuncionarioResponse> buscarFuncionarioPorId(@PathVariable String cpf){
         FuncionarioDTO funcionario = _funcionarioService.buscarFuncionarioPorCpf(cpf);
         FuncionarioResponse funcionarioResponse = new FuncionarioResponse(funcionario);
