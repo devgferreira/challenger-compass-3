@@ -18,5 +18,5 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String titulo;
-    String Descricao;
+    String descricao;
 }

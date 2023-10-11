@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class PropostaDTO {
     Long id;
     String titulo;
-    String Descricao;
+    String descricao;
 }
