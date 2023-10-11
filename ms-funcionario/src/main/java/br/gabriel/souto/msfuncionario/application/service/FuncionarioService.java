@@ -43,12 +43,13 @@ public class FuncionarioService implements IFuncionarioService {
     }
 
     @Override
-    public FuncionarioDTO buscarFuncionarioPorId(Long id) {
-       Funcionario funcionario = _funcionarioRepository.findById(id).orElseThrow(
+    public FuncionarioDTO buscarFuncionarioPorCpf(String cpf) {
+       Funcionario funcionario = _funcionarioRepository.findFuncionarioByCpf(cpf).orElseThrow(
                () -> new FuncionarioNaoEncontradoExeception(
                new ExceptionResponse(ErrorCodes.FUNCIONARIO_NAO_ENCONTRADO,
                        ErrorConstants.FUNCIONARIO_NAO_ENCONTRADO)));
 
        return _modelMapper.map(funcionario, FuncionarioDTO.class);
     }
+
 }

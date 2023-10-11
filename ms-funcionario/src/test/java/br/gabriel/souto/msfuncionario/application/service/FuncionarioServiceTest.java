@@ -5,6 +5,7 @@ import br.gabriel.souto.msfuncionario.domain.interfaces.IFuncionarioRepository;
 import br.gabriel.souto.msfuncionario.domain.model.funcionario.Funcionario;
 import br.gabriel.souto.msfuncionario.infra.exceptions.CpfInvalidoExeception;
 import br.gabriel.souto.msfuncionario.infra.exceptions.FuncionarioJaExisteExeception;
+import br.gabriel.souto.msfuncionario.infra.exceptions.FuncionarioNaoEncontradoExeception;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,12 +29,10 @@ class FuncionarioServiceTest {
     @Mock
     private ModelMapper _modelMapper;
     @Test
-    void criarFuncionario() {
-        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
-        funcionarioDTO.setCpf("12345678901");
+    void criarFuncionarioTest() {
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "12345678901", "Gabriel");
 
-        Funcionario funcionario = new Funcionario();
-        funcionario.setCpf("12345678901");
+        Funcionario funcionario = new Funcionario(1L, "12345678901", "Gabriel");
 
         when(_modelMapper.map(funcionarioDTO, Funcionario.class)).thenReturn(funcionario);
         when(_funcionarioRepository.findFuncionarioByCpf(funcionario.getCpf())).thenReturn(Optional.empty());
@@ -45,7 +44,7 @@ class FuncionarioServiceTest {
         assertEquals(result, funcionarioDTO);
     }
     @Test
-    void criarFuncionario_ComCpf_Existente() {
+    void criarFuncionario_ComCpf_ExistenteTest() {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
         funcionarioDTO.setCpf("12345678901");
 
@@ -60,7 +59,7 @@ class FuncionarioServiceTest {
         });
     }
     @Test
-    void criarFuncionario_ComCpf_Invalido() {
+    void criarFuncionario_ComCpf_InvalidoTest() {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
         funcionarioDTO.setCpf("1234567890");
 
@@ -72,4 +71,30 @@ class FuncionarioServiceTest {
             _funcionarioService.criarFuncionario(funcionarioDTO);
         });
     }
+    @Test
+    public void buscarFuncionarioPorCpfTest() {
+        String cpf = "12345678900";
+        Funcionario funcionario = new Funcionario();
+        funcionario.setCpf(cpf);
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
+        funcionarioDTO.setCpf(cpf);
+
+        when(_funcionarioRepository.findFuncionarioByCpf(anyString())).thenReturn(Optional.of(funcionario));
+        when(_modelMapper.map(funcionario, FuncionarioDTO.class)).thenReturn(funcionarioDTO);
+
+        FuncionarioDTO result = _funcionarioService.buscarFuncionarioPorCpf(cpf);
+
+        assertEquals(funcionarioDTO, result);
+    }
+    @Test
+    public void buscarFuncionarioPorCpf_Nao_Econtrado_Test() {
+        String cpf = "12345678900";
+
+        when(_funcionarioRepository.findFuncionarioByCpf(cpf)).thenReturn(Optional.empty());
+
+        assertThrows(FuncionarioNaoEncontradoExeception.class, () -> {
+            _funcionarioService.buscarFuncionarioPorCpf(cpf);
+        });
+    }
+
 }
