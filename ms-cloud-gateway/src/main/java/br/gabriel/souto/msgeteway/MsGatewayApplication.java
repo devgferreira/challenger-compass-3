@@ -18,8 +18,8 @@ public class MsGatewayApplication {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route(r -> r.path("/funcionarios/**").uri("lb://ms-funcionarios"))
-                .route(r -> r.path("/propostas/**").uri("lb://ms-propostas"))
+                .route(r -> r.path("/funcionarios/**").uri("lb://ms-funcionario"))
+                .route(r -> r.path("/propostas/**").uri("lb://ms-proposta"))
                 .build();
     }
 }
