@@ -59,5 +59,17 @@ class FuncionarioServiceTest {
             _funcionarioService.criarFuncionario(funcionarioDTO);
         });
     }
+    @Test
+    void criarFuncionario_ComCpf_Invalido() {
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
+        funcionarioDTO.setCpf("1234567890");
 
+        Funcionario funcionario = new Funcionario();
+        funcionario.setCpf("1234567890");
+
+        when(_modelMapper.map(funcionarioDTO, Funcionario.class)).thenReturn(funcionario);
+        assertThrows(CpfInvalidoExeception.class, () -> {
+            _funcionarioService.criarFuncionario(funcionarioDTO);
+        });
+    }
 }
