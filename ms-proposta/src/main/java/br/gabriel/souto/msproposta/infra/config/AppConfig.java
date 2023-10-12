@@ -1,4 +1,4 @@
-package br.gabriel.souto.msproposta.infra;
+package br.gabriel.souto.msproposta.infra.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
