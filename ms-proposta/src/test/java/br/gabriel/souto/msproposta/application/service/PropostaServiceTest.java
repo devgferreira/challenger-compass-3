@@ -3,6 +3,7 @@ package br.gabriel.souto.msproposta.application.service;
 import br.gabriel.souto.msproposta.application.dtos.PropostaDTO;
 import br.gabriel.souto.msproposta.domain.interfaces.IPropostaRepository;
 import br.gabriel.souto.msproposta.domain.model.Proposta;
+import br.gabriel.souto.msproposta.infra.exceptions.PropostaNaoEncontradoExeception;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,5 +41,22 @@ class PropostaServiceTest {
         assertEquals(result, propostaDTO);
 
     }
+
+    @Test
+    void buscarPropostaPorId(){
+        Long id = 1L;
+        Proposta proposta = new Proposta();
+        proposta.setId(id);
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.setId(id);
+
+        when(_propostaRepository.findById(proposta.getId())).thenReturn(Optional.of(proposta));
+        when(_modelMapper.map(proposta, PropostaDTO.class)).thenReturn(propostaDTO);
+
+        PropostaDTO result = _propostaService.buscarPropostaPorId(id);
+        assertEquals(result, propostaDTO);
+    }
+
+
 
 }
