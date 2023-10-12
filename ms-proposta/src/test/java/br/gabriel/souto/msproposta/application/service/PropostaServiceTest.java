@@ -57,6 +57,15 @@ class PropostaServiceTest {
         assertEquals(result, propostaDTO);
     }
 
+    @Test
+    void buscarPropostaPorId_Nao_Encontrado(){
+        Long id = 1L;
+        when(_propostaRepository.findById(id)).thenReturn(Optional.empty());
 
+        assertThrows(PropostaNaoEncontradoExeception.class, () -> {
+            _propostaService.buscarPropostaPorId(id);
+        });
+
+    }
 
 }
