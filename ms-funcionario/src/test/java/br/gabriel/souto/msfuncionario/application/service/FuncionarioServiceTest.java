@@ -1,6 +1,7 @@
 package br.gabriel.souto.msfuncionario.application.service;
 
 import br.gabriel.souto.msfuncionario.application.dtos.FuncionarioDTO;
+import br.gabriel.souto.msfuncionario.domain.enums.Setor;
 import br.gabriel.souto.msfuncionario.domain.interfaces.IFuncionarioRepository;
 import br.gabriel.souto.msfuncionario.domain.model.funcionario.Funcionario;
 import br.gabriel.souto.msfuncionario.infra.exceptions.CpfInvalidoExeception;
@@ -30,9 +31,9 @@ class FuncionarioServiceTest {
     private ModelMapper _modelMapper;
     @Test
     void criarFuncionarioTest() {
-        FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "12345678901", "Gabriel");
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "12345678901", "Gabriel", Setor.RH);
 
-        Funcionario funcionario = new Funcionario(1L, "12345678901", "Gabriel");
+        Funcionario funcionario = new Funcionario(1L, "12345678901", "Gabriel", Setor.RH);
 
         when(_modelMapper.map(funcionarioDTO, Funcionario.class)).thenReturn(funcionario);
         when(_funcionarioRepository.findFuncionarioByCpf(funcionario.getCpf())).thenReturn(Optional.empty());
