@@ -1,6 +1,7 @@
 package br.gabriel.souto.msproposta.application.service;
 
 import br.gabriel.souto.msproposta.application.dtos.PropostaDTO;
+import br.gabriel.souto.msproposta.domain.enums.Setor;
 import br.gabriel.souto.msproposta.domain.interfaces.IPropostaRepository;
 import br.gabriel.souto.msproposta.domain.model.Proposta;
 import br.gabriel.souto.msproposta.infra.exceptions.PropostaNaoEncontradoExeception;
@@ -30,8 +31,8 @@ class PropostaServiceTest {
 
     @Test
     void criarProposta() {
-        Proposta proposta = new Proposta(1L, "Mesa quebrada", "Arrumar a messa quebrada no setor 5");
-        PropostaDTO propostaDTO = new PropostaDTO(1L, "Mesa quebrada", "Arrumar a messa quebrada no setor 5");
+        Proposta proposta = new Proposta(1L, "Mesa quebrada", "Arrumar a messa quebrada no setor 5", Setor.RH);
+        PropostaDTO propostaDTO = new PropostaDTO(1L, "Mesa quebrada", "Arrumar a messa quebrada no setor 5", Setor.RH);
         when(_modelMapper.map(propostaDTO, Proposta.class)).thenReturn(proposta);
         when(_propostaRepository.save(proposta)).thenReturn(proposta);
         when(_modelMapper.map(proposta, PropostaDTO.class)).thenReturn(propostaDTO);
