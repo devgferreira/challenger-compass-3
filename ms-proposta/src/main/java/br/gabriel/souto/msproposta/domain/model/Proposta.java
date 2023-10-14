@@ -1,5 +1,6 @@
 package br.gabriel.souto.msproposta.domain.model;
 
+import br.gabriel.souto.msproposta.domain.enums.Setor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,4 +20,5 @@ public class Proposta {
     Long id;
     String titulo;
     String descricao;
+    Setor setor;
 }
