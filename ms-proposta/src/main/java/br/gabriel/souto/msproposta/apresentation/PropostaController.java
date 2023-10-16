@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("propostas")
 public class PropostaController {
@@ -21,6 +22,7 @@ public class PropostaController {
 
     @PostMapping
     public ResponseEntity<PropostaResponse> criarProposta(@RequestBody PropostaDTO propostaDTO){
+
         PropostaDTO proposta = _propostaService.criarProposta(propostaDTO);
         PropostaResponse propostaResponse = new PropostaResponse(proposta);
         return new ResponseEntity<>(propostaResponse, HttpStatus.CREATED);
@@ -28,6 +30,7 @@ public class PropostaController {
     @GetMapping("/{id}")
     public ResponseEntity<PropostaResponse> buscarPropostaPorId(@PathVariable Long id){
         PropostaDTO proposta = _propostaService.buscarPropostaPorId(id);
+        _propostaService.verificarPropostas();
         PropostaResponse propostaResponse = new PropostaResponse(proposta);
         return ResponseEntity.ok(propostaResponse);
     }
