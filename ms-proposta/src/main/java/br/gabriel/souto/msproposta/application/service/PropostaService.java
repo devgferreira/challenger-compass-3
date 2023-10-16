@@ -10,7 +10,11 @@ import br.gabriel.souto.msproposta.infra.exceptions.ExceptionResponse;
 import br.gabriel.souto.msproposta.infra.exceptions.PropostaNaoEncontradoExeception;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Service
 public class PropostaService implements IPropostaService {
@@ -26,6 +30,10 @@ public class PropostaService implements IPropostaService {
     @Override
     public PropostaDTO criarProposta(PropostaDTO propostaDTO) {
         Proposta proposta = _modelMapper.map(propostaDTO, Proposta.class);
+        if (proposta.getTempo() == null) {
+            proposta.setTempo(LocalTime.of(0, 1));
+        }
+        proposta.setAberta(true);
         return _modelMapper.map(_propostaRepository.save(proposta), PropostaDTO.class);
     }
 
@@ -37,5 +45,16 @@ public class PropostaService implements IPropostaService {
                                 ErrorConstants.PROPOSTA_NAO_ENCONTRADA)));
 
         return _modelMapper.map(proposta, PropostaDTO.class);
+    }
+    @Override
+    @Scheduled(fixedRate = 60000)
+    public void verificarPropostas() {
+        LocalTime agora = LocalTime.now();
+        _propostaRepository.findAll().forEach(proposta -> {
+            if (proposta.getTempo().isBefore(agora) && proposta.isAberta()) {
+                proposta.setAberta(false);
+                _propostaRepository.save(proposta);
+            }
+        });
     }
 }
