@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +16,6 @@ public class PropostaDTO {
     String titulo;
     String descricao;
     Setor setor;
+    private LocalTime tempo;
+    private boolean aberta;
 }
