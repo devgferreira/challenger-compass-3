@@ -18,4 +18,11 @@ public class PropostaDTO {
     Setor setor;
     private LocalTime tempo;
     private boolean aberta;
+
+    public PropostaDTO(Long id, String titulo, String descricao, Setor setor) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.setor = setor;
+    }
 }

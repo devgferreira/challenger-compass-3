@@ -25,4 +25,11 @@ public class Proposta {
     private Setor setor;
     private LocalTime tempo;
     private boolean aberta;
+
+    public Proposta(Long id, String titulo, String descricao, Setor setor) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.setor = setor;
+    }
 }
