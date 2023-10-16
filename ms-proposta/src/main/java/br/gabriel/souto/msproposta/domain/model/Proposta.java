@@ -25,6 +25,7 @@ public class Proposta {
     private Setor setor;
     private LocalTime tempo;
     private boolean aberta;
+    private String resultado;
 
     public Proposta(Long id, String titulo, String descricao, Setor setor) {
         this.id = id;
