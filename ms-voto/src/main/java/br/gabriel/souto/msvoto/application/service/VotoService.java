@@ -10,9 +10,9 @@ import br.gabriel.souto.msvoto.infra.client.FuncionarioControllerClient;
 import br.gabriel.souto.msvoto.infra.client.PropostaControllerClient;
 import br.gabriel.souto.msvoto.infra.client.ValidacaoVotoControllerClient;
 import br.gabriel.souto.msvoto.infra.mqueue.EmitirPropostaResultadoPublisher;
+import br.gabriel.souto.msvoto.infra.mqueue.EmitirResultadoVotacaoPublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,15 +28,17 @@ public class VotoService implements IVotoService {
     private final PropostaControllerClient _propostaControllerClient;
     private final ValidacaoVotoControllerClient _validacaoVotoControllerClient;
     private final EmitirPropostaResultadoPublisher _emiterPropostaResultado;
+    private final EmitirResultadoVotacaoPublisher _emitirResultadoVotacao;
 
     private final IVotoRepository _votoRepository;
 
     @Autowired
-    public VotoService(FuncionarioControllerClient funcionarioControllerClient, PropostaControllerClient propostaControllerClient, ValidacaoVotoControllerClient validacaoVotoControllerClient, EmitirPropostaResultadoPublisher emiterPropostaResultado, IVotoRepository votoRepository) {
+    public VotoService(FuncionarioControllerClient funcionarioControllerClient, PropostaControllerClient propostaControllerClient, ValidacaoVotoControllerClient validacaoVotoControllerClient, EmitirPropostaResultadoPublisher emiterPropostaResultado, EmitirResultadoVotacaoPublisher emitirResultadoVotacao, IVotoRepository votoRepository) {
         _funcionarioControllerClient = funcionarioControllerClient;
         _propostaControllerClient = propostaControllerClient;
         _validacaoVotoControllerClient = validacaoVotoControllerClient;
         _emiterPropostaResultado = emiterPropostaResultado;
+        _emitirResultadoVotacao = emitirResultadoVotacao;
         _votoRepository = votoRepository;
     }
 
@@ -85,6 +87,11 @@ public class VotoService implements IVotoService {
                     }
                     try {
                         _emiterPropostaResultado.emitirPropostaResultado(resultado);
+                        String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
+                                " para a proposta: " + resultado.getTitulo() + "do id: " + resultado.getId();
+                        if(!(resultado.getResultado().equals("Aprovado") || resultado.getResultado().equals("Reprovado"))){
+                            _emitirResultadoVotacao.emitirVotacaoResultado(mensagem);
+                        }
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
