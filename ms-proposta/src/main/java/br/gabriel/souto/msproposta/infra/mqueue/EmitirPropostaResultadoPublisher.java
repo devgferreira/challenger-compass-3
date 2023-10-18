@@ -30,7 +30,7 @@ public class EmitirPropostaResultadoPublisher {
             proposta.setResultado(dados.getResultado());
             _propostaRepository.save(proposta);
         } catch (Exception e) {
-            log.error("Erro ao receber solicitacao de emissao de cartao: {}", e.getMessage());
+            log.error("Erro ao receber solicitacao de emitir-proposta-resultado-votacao: {}", e.getMessage());
         }
     }
 }
