@@ -22,3 +22,4 @@ eureka:
 mq:
   queues:
     emitir-proposta-resultado-votacao: emitir-proposta-resultado-votacao
+    emitir-resultado-votacao: emitir-resultado-votacao
