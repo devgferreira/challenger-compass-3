@@ -12,9 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PropostaService implements IPropostaService {
@@ -31,9 +31,10 @@ public class PropostaService implements IPropostaService {
     public PropostaDTO criarProposta(PropostaDTO propostaDTO) {
         Proposta proposta = _modelMapper.map(propostaDTO, Proposta.class);
         if (proposta.getTempo() == null) {
-            proposta.setTempo(LocalTime.of(0, 1));
+            proposta.setTempo(LocalTime.now().plusMinutes(1));
         }
         proposta.setAberta(true);
+        proposta.setResultado("PENDENTE");
         return _modelMapper.map(_propostaRepository.save(proposta), PropostaDTO.class);
     }
 
@@ -46,15 +47,24 @@ public class PropostaService implements IPropostaService {
 
         return _modelMapper.map(proposta, PropostaDTO.class);
     }
+
     @Override
-    @Scheduled(fixedRate = 60000)
-    public void verificarPropostas() {
+    public List<PropostaDTO> buscarTodasAsPropostas() {
+        List<Proposta> propostas = _propostaRepository.findAll();
+        return propostas.stream()
+                .map(proposta -> _modelMapper.map(proposta, PropostaDTO.class))
+                .collect(Collectors.toList());
+    }
+    @Override
+    @Scheduled(fixedRate = 20000)
+    public void verificarTempo() {
         LocalTime agora = LocalTime.now();
         _propostaRepository.findAll().forEach(proposta -> {
-            if (proposta.getTempo().isBefore(agora) && proposta.isAberta()) {
+            if (proposta.getTempo().isBefore(agora)) {
                 proposta.setAberta(false);
                 _propostaRepository.save(proposta);
             }
         });
     }
+
 }

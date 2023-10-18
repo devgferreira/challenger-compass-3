@@ -18,6 +18,7 @@ public class PropostaDTO {
     Setor setor;
     private LocalTime tempo;
     private boolean aberta;
+    private String resultado;
 
     public PropostaDTO(Long id, String titulo, String descricao, Setor setor) {
         this.id = id;

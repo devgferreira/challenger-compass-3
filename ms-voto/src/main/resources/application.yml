@@ -1,7 +1,6 @@
-
 spring:
   application:
-    name: ms-proposta
+    name: ms-voto
   rabbitmq:
     host: localhost
     port: 5672
@@ -18,8 +17,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}]
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 mq:
   queues:
     emitir-proposta-resultado-votacao: emitir-proposta-resultado-votacao
+    emitir-resultado-votacao: emitir-resultado-votacao

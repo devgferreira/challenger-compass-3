@@ -1,6 +1,11 @@
 spring:
   application:
     name: ms-funcionario
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 server:
   port: 0
@@ -13,3 +18,7 @@ eureka:
   instance:
     hostname: localhost
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}]
+
+mq:
+  queues:
+    emitir-resultado-votacao: emitir-resultado-votacao
