@@ -12,7 +12,6 @@ import java.time.LocalTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Proposta {
 
@@ -32,5 +31,9 @@ public class Proposta {
         this.titulo = titulo;
         this.descricao = descricao;
         this.setor = setor;
+    }
+
+    public Proposta(LocalTime tempo) {
+        this.tempo = tempo;
     }
 }

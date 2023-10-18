@@ -9,13 +9,9 @@ import java.util.List;
 public class ExceptionResponse {
     private final String code;
     private final String message;
-    public ExceptionResponse(final ErrorCodes errorCode, String details) {
+    public ExceptionResponse(final ErrorCodes errorCode, String message) {
         this.code = errorCode.name();
         this.message = errorCode.getMessage();
     }
 
-    public ExceptionResponse(ErrorCodes errorCode, List<String> details) {
-        this.code = errorCode.name();
-        this.message = errorCode.getMessage();
-    }
 }

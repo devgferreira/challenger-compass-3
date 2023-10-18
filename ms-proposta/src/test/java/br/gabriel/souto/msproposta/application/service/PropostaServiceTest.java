@@ -9,12 +9,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,6 +76,34 @@ class PropostaServiceTest {
             _propostaService.buscarPropostaPorId(id);
         });
 
+    }
+    @Test
+    public void testBuscarTodasAsPropostas() {
+        List<Proposta> propostas = Arrays.asList(new Proposta(), new Proposta());
+
+        List<PropostaDTO> propostaDTOs = propostas.stream()
+                .map(proposta -> new PropostaDTO())
+                .collect(Collectors.toList());
+
+        when(_propostaRepository.findAll()).thenReturn(propostas);
+        for (int i = 0; i < propostas.size(); i++) {
+            when(_modelMapper.map(propostas.get(i), PropostaDTO.class)).thenReturn(propostaDTOs.get(i));
+        }
+
+        List<PropostaDTO> result = _propostaService.buscarTodasAsPropostas();
+
+        assertEquals(propostaDTOs, result);
+    }
+
+    @Test
+    public void testVerificarTempo() {
+        List<Proposta> propostas = Arrays.asList(new Proposta(LocalTime.now()), new Proposta(LocalTime.now()));
+
+        when(_propostaRepository.findAll()).thenReturn(propostas);
+
+        _propostaService.verificarTempo();
+
+        Mockito.verify(_propostaRepository, times(propostas.size())).save(any(Proposta.class));
     }
 
 }
