@@ -87,9 +87,10 @@ public class VotoService implements IVotoService {
                     }
                     try {
                         _emiterPropostaResultado.emitirPropostaResultado(resultado);
-                        String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
-                                " para a proposta: " + resultado.getTitulo() + "do id: " + resultado.getId();
-                        if(!(resultado.getResultado().equals("Aprovado") || resultado.getResultado().equals("Reprovado"))){
+
+                        if(!(item.getResultado().equals("Aprovado") || item.getResultado().equals("Reprovado"))){
+                            String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
+                                    " para a proposta: " + resultado.getTitulo() + " do id: " + resultado.getId();
                             _emitirResultadoVotacao.emitirVotacaoResultado(mensagem);
                         }
                     } catch (JsonProcessingException e) {
