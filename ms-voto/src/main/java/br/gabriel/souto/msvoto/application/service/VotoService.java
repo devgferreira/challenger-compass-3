@@ -12,9 +12,14 @@ import br.gabriel.souto.msvoto.infra.client.ValidacaoVotoControllerClient;
 import br.gabriel.souto.msvoto.infra.mqueue.EmitirPropostaResultadoPublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class VotoService implements IVotoService {
@@ -41,30 +46,50 @@ public class VotoService implements IVotoService {
         Proposta proposta = _propostaControllerClient.buscarPropostaPorId(propostaId);
         String voto_valido = _validacaoVotoControllerClient.validarVoto(propostaId, funcionarioCpf);
 
-
-        Optional<Voto> votoExistente = _votoRepository.findByFuncionarioCpfAndPropostaId(funcionario.getCpf(), proposta.getId());
-        if(votoExistente.isPresent()){
-            throw new RuntimeException("Funcionario já votou nessa proposta");
+        if(voto_valido.equals("nao_pode_votar")){
+            throw new RuntimeException("O Funcionario não pode votar nessa proposta");
         }
 
-        Voto novoVoto = new Voto();
-        novoVoto.setFuncionarioCpf(funcionario.getCpf());
-        novoVoto.setPropostaId(proposta.getId());
-        novoVoto.setStatus(status);
+        if(proposta.isAberta()){
+            Optional<Voto> votoExistente = _votoRepository.findByFuncionarioCpfAndPropostaId(
+                    funcionario.getCpf(), proposta.getId());
+            if(votoExistente.isPresent()){
+                throw new RuntimeException("Funcionario já votou nessa proposta");
+            }
 
-        _votoRepository.save(novoVoto);
+            Voto novoVoto = new Voto();
+            novoVoto.setFuncionarioCpf(funcionario.getCpf());
+            novoVoto.setPropostaId(proposta.getId());
+            novoVoto.setStatus(status);
+
+            _votoRepository.save(novoVoto);
+        }
 
         if(!proposta.isAberta()){
-            Long votosAprovados = _votoRepository.countByPropostaIdAndStatus(proposta.getId(), VotoStatus.APROVADO);
-            Long votosReprovados = _votoRepository.countByPropostaIdAndStatus(proposta.getId(), VotoStatus.REPROVADO);
-
-            if (votosAprovados > votosReprovados) {
-                proposta.setResultado("Aprovado");
-            } else {
-                proposta.setResultado("Reprovado");
-            }
-            _emiterPropostaResultado.emitirPropostaResultado(proposta);
+            throw new RuntimeException("A votação foi encerrada!");
         }
 
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> {
+            List<Proposta> propostas = _propostaControllerClient.buscarTodasAsPropostas();
+            for (Proposta item : propostas) {
+                Proposta resultado = _propostaControllerClient.buscarPropostaPorId(item.getId());
+                if(!resultado.isAberta()){
+                    Long votosAprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.APROVADO);
+                    Long votosReprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.REPROVADO);
+
+                    if (votosAprovados > votosReprovados) {
+                        resultado.setResultado("Aprovado");
+                    } else {
+                        resultado.setResultado("Reprovado");
+                    }
+                    try {
+                        _emiterPropostaResultado.emitirPropostaResultado(resultado);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }, 0, 20, TimeUnit.SECONDS);
     }
 }
