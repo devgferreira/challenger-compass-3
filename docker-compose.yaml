@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  rabbitMQ:
+    image: rabbitmq:3.12-management
+    container_name: rabbitMQ
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
+    networks:
+      - challenge
+    ports:
+      - 5672:5672
+      - 15672:15672
+  
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - 8761:8761
+    container_name: eureka-server
+    networks:
+      - challenge
+
+  ms-funcionario:
+    depends_on:
+      - rabbitMQ
+      - eureka-server
+    build: ./ms-funcionario
+    container_name: ms-funcionario
+    networks:
+      - challenge
+  
+  ms-proposta:
+    depends_on:
+      - rabbitMQ
+      - eureka-server
+    build: ./ms-proposta
+    container_name: ms-proposta
+    networks:
+      - challenge
+
+  ms-validacao-voto:
+    depends_on:
+      - eureka-server
+    build: ./ms-validacao-voto
+    container_name: ms-validacao-voto
+    networks:
+      - challenge
+
+  ms-voto:
+    depends_on:
+      - eureka-server
+    build: ./ms-voto
+    container_name: ms-voto
+    networks:
+      - challenge
+
+  ms-cloud-gateway:
+    depends_on:
+      - eureka-server
+    build: ./ms-cloud-gateway
+    ports:
+      - 8080:8080
+    container_name: ms-cloud-gateway
+    networks:
+      - challenge
+  
+
+networks:
+  challenge:
+    driver: bridge
+
