@@ -79,6 +79,9 @@ public class VotoService implements IVotoService {
                         ErrorCodes.FUNCIONARIO_JA_VOTO, ErrorConstants.FUNCIONARIO_JA_VOTO
                 ));
             }
+            if(status == null){
+                throw new VotoInvalidoExeception(new ExceptionResponse(ErrorCodes.VOTO_INVALIDO, ErrorConstants.VOTO_INVALIDO));
+            }
             Voto novoVoto = new Voto();
             novoVoto.setFuncionarioCpf(funcionario.getCpf());
             novoVoto.setPropostaId(proposta.getId());
