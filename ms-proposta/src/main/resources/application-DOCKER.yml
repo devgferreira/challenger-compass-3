@@ -1,0 +1,21 @@
+
+spring:
+  rabbitmq:
+    host: rabbitMQ
+    port: 5672
+    username: guest
+    password: guest
+
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}]
+
+mq:
+  queues:
+    emitir-proposta-resultado-votacao: emitir-proposta-resultado-votacao

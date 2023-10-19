@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>br.gabriel.souto</groupId>
-	<artifactId>ms-gateway</artifactId>
+	<artifactId>ms-cloud-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ms-gateway</name>
+	<name>ms-cloud-gateway</name>
 	<description>Api para a descoberta de APIs </description>
 	<properties>
 		<java.version>17</java.version>
