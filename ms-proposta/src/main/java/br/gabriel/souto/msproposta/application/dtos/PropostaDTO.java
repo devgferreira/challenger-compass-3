@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class PropostaDTO {
     Long id;
