@@ -35,5 +35,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.VOTACAO_ENCERRADA, ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
+    @ExceptionHandler(VotoInvalidoExeception.class)
+    public final ResponseEntity<Object> handleVotoInvalidoExeception(VotoInvalidoExeception ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.VOTO_INVALIDO, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
+    }
 
 }
