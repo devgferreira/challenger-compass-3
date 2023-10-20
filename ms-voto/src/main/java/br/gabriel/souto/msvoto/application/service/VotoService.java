@@ -17,6 +17,7 @@ import br.gabriel.souto.msvoto.infra.mqueue.EmitirResultadoVotacaoPublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -97,31 +98,35 @@ public class VotoService implements IVotoService {
 
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(() -> {
-            List<Proposta> propostas = _propostaControllerClient.buscarTodasAsPropostas();
-            for (Proposta item : propostas) {
-                Proposta resultado = _propostaControllerClient.buscarPropostaPorId(item.getId());
-                if (!resultado.isAberta()) {
-                    Long votosAprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.APROVADO);
-                    Long votosReprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.REPROVADO);
 
-                    if (votosAprovados > votosReprovados) {
-                        resultado.setResultado("Aprovado");
-                    } else {
-                        resultado.setResultado("Reprovado");
-                    }
-                    try {
-                        _emiterPropostaResultado.emitirPropostaResultado(resultado);
+        }, 0, 20, TimeUnit.SECONDS);
+    }
+    @Scheduled(fixedRate = 5000)
+    public void emitirResultadoVotacaoEemitirPropostaResultadoVotacao(){
+        List<Proposta> propostas = _propostaControllerClient.buscarTodasAsPropostas();
+        for (Proposta item : propostas) {
+            Proposta resultado = _propostaControllerClient.buscarPropostaPorId(item.getId());
+            if (!resultado.isAberta()) {
+                Long votosAprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.APROVADO);
+                Long votosReprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.REPROVADO);
 
-                        if (!(item.getResultado().equals("Aprovado") || item.getResultado().equals("Reprovado"))) {
-                            String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
-                                    " para a proposta: " + resultado.getTitulo() + ", ID: " + resultado.getId();
-                            _emitirResultadoVotacao.emitirVotacaoResultado(mensagem);
-                        }
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                if (votosAprovados > votosReprovados) {
+                    resultado.setResultado("Aprovado");
+                } else {
+                    resultado.setResultado("Reprovado");
+                }
+                try {
+                    _emiterPropostaResultado.emitirPropostaResultado(resultado);
+
+                    if (!(item.getResultado().equals("Aprovado") || item.getResultado().equals("Reprovado"))) {
+                        String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
+                                " para a proposta: " + resultado.getTitulo() + ", ID: " + resultado.getId();
+                        _emitirResultadoVotacao.emitirVotacaoResultado(mensagem);
                     }
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
                 }
             }
-        }, 0, 20, TimeUnit.SECONDS);
+        }
     }
 }

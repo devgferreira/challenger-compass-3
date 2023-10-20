@@ -6,4 +6,5 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface IVotoService {
     void votar(String funcionarioCpf, Long propostaId, VotoStatus status) throws JsonProcessingException;
+    void emitirResultadoVotacaoEemitirPropostaResultadoVotacao();
 }
