@@ -138,4 +138,9 @@ emitir-resultado-votacao
 
 O RabbitMQ é um broker de mensagens open source amplamente utilizado que suporta vários protocolos de mensagens. Ele permite que as aplicações se comuniquem entre si de forma assíncrona, melhorando a performance e a escalabilidade. É uma ferramenta essencial em arquiteturas baseadas em microserviços, permitindo que os serviços troquem informações de forma eficiente e confiável.
 
+
+## Postman
+
+Arquivo para a documentação do postman: [link](https://github.com/devgferreira/challenger-compass-3/blob/main/challenger-compass-3.postman_collection.json)
+
 ---
