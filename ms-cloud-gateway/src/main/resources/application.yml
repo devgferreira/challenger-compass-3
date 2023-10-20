@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ms-cloud-gateway
+  cloud:
+    gateway:
+      locator:
+        enabled: true
+        lower-case-service-id: true
+  profiles:
+    active: DOCKER
+
+
+
