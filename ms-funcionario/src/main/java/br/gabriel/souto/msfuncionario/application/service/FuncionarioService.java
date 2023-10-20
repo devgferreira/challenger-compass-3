@@ -9,6 +9,7 @@ import br.gabriel.souto.msfuncionario.infra.exceptions.CpfInvalidoExeception;
 import br.gabriel.souto.msfuncionario.infra.exceptions.ExceptionResponse;
 import br.gabriel.souto.msfuncionario.infra.exceptions.FuncionarioJaExisteExeception;
 import br.gabriel.souto.msfuncionario.infra.exceptions.FuncionarioNaoEncontradoExeception;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,7 @@ public class FuncionarioService implements IFuncionarioService {
                     new ExceptionResponse(ErrorCodes.FUNCIONARIO_JA_EXISTE, ErrorConstants.FUNCIONARIO_JA_EXISTE)
             );
         }
-        boolean cpfValido = funcionarioDTO.getCpf().length() == 11;
-        if(!cpfValido){
+        if(!validator(funcionario.getCpf())){
             throw new CpfInvalidoExeception(
                     new ExceptionResponse(ErrorCodes.CPF_INVALIDO, ErrorConstants.CPF_INVALIDO)
             );
@@ -50,6 +50,12 @@ public class FuncionarioService implements IFuncionarioService {
                        ErrorConstants.FUNCIONARIO_NAO_ENCONTRADO)));
 
        return _modelMapper.map(funcionario, FuncionarioDTO.class);
+    }
+    public boolean validator(String cpf) {
+        CPFValidator validator = new CPFValidator();
+        validator.initialize(null);
+        return validator.isValid(cpf,null);
+
     }
 
 }
