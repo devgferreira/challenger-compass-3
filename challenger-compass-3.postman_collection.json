@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "40d44f21-b128-4362-9072-534dda70418d",
+		"name": "challenger-compass-3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30035801"
+	},
+	"item": [
+		{
+			"name": "funcionarios",
+			"item": [
+				{
+					"name": "Criar Funcionarios",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"nome\",\r\n    \"cpf\" : \"cpf\",\r\n    \"setor\": \"rh ou ti\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/funcionarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por CPF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/funcionarios/{cpf}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								"{cpf}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "proposta",
+			"item": [
+				{
+					"name": "Criar Proposta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"titulo\",\r\n    \"descricao\": \"descricao\",\r\n    \"setor\": \"RH ou TI\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/propostas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propostas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/{propostaId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"{propostaId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Todas Propostas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/propostas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propostas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "validar voto",
+			"item": [
+				{
+					"name": "validar voto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/validacao-votos/propostas/{propostaId}/funcionarios/{funcionarioCpf}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"validacao-votos",
+								"propostas",
+								"{propostaId}",
+								"funcionarios",
+								"{funcionarioCpf}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "votos",
+			"item": [
+				{
+					"name": "votar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/votos/funcionario/{funcionarioCpf}/proposta/{propostaId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"votos",
+								"funcionario",
+								"{funcionarioCpf}",
+								"proposta",
+								"{propostaId}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
