@@ -115,7 +115,7 @@ public class VotoService implements IVotoService {
 
                         if(!(item.getResultado().equals("Aprovado") || item.getResultado().equals("Reprovado"))){
                             String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
-                                    " para a proposta: " + resultado.getTitulo() + " do ID: " + resultado.getId();
+                                    " para a proposta: " + resultado.getTitulo() + ", ID: " + resultado.getId();
                             _emitirResultadoVotacao.emitirVotacaoResultado(mensagem);
                         }
                     } catch (JsonProcessingException e) {
