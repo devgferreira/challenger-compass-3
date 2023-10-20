@@ -34,9 +34,9 @@ class FuncionarioServiceTest {
 
     @Test
     void criarFuncionarioTest() {
-        FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "12345678901", "Gabriel", Setor.RH);
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "32904234098", "Gabriel", Setor.RH);
 
-        Funcionario funcionario = new Funcionario(1L, "12345678901", "Gabriel", Setor.RH);
+        Funcionario funcionario = new Funcionario(1L, "32904234098", "Gabriel", Setor.RH);
 
         when(_modelMapper.map(funcionarioDTO, Funcionario.class)).thenReturn(funcionario);
         when(_funcionarioRepository.findFuncionarioByCpf(funcionario.getCpf())).thenReturn(Optional.empty());
@@ -51,10 +51,10 @@ class FuncionarioServiceTest {
     @Test
     void criarFuncionario_ComCpf_ExistenteTest() {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
-        funcionarioDTO.setCpf("12345678901");
+        funcionarioDTO.setCpf("32904234098");
 
         Funcionario funcionario = new Funcionario();
-        funcionario.setCpf("12345678901");
+        funcionario.setCpf("32904234098");
 
         when(_modelMapper.map(funcionarioDTO, Funcionario.class)).thenReturn(funcionario);
         when(_funcionarioRepository.findFuncionarioByCpf(anyString())).thenReturn(Optional.of(funcionario));
@@ -80,7 +80,7 @@ class FuncionarioServiceTest {
 
     @Test
     public void buscarFuncionarioPorCpfTest() {
-        String cpf = "12345678900";
+        String cpf = "32904234098";
         Funcionario funcionario = new Funcionario();
         funcionario.setCpf(cpf);
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
@@ -96,7 +96,7 @@ class FuncionarioServiceTest {
 
     @Test
     public void buscarFuncionarioPorCpf_Nao_Econtrado_Test() {
-        String cpf = "12345678900";
+        String cpf = "32904234098";
 
         when(_funcionarioRepository.findFuncionarioByCpf(cpf)).thenReturn(Optional.empty());
 
