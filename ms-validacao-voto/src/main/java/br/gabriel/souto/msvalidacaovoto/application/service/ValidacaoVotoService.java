@@ -12,8 +12,6 @@ import br.gabriel.souto.msvalidacaovoto.infra.exceptions.CpfInvalidoExeception;
 import br.gabriel.souto.msvalidacaovoto.infra.exceptions.ExceptionResponse;
 import br.gabriel.souto.msvalidacaovoto.infra.exceptions.PropostaNaoEncontradoExeception;
 import feign.FeignException;
-import feign.FeignException.NotFound;
-import org.bouncycastle.est.CACertsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,17 +33,16 @@ public class ValidacaoVotoService implements IValidacaoVotoService {
         FuncionarioResponse funcionarioResponse;
         try {
             funcionarioResponse = _funcionarioControllerClient.buscarFuncionarioPorCpf(funcionarioCpf);
-        }
-        catch (FeignException.NotFound ex){
+        } catch (FeignException.NotFound ex) {
             throw new CpfInvalidoExeception(new ExceptionResponse(ErrorCodes.CPF_INVALIDO, ErrorConstants.CPF_INVALIDO));
         }
         try {
             propostaResponse = _propostaControllerClient.buscarPropostaPorId(propostaId);
-        }catch(FeignException.NotFound ex){
-           throw new PropostaNaoEncontradoExeception(new ExceptionResponse(ErrorCodes.PROPOSTA_NAO_ENCONTRADA, ErrorConstants.PROPOSTA_NAO_ENCONTRADA));
+        } catch (FeignException.NotFound ex) {
+            throw new PropostaNaoEncontradoExeception(new ExceptionResponse(ErrorCodes.PROPOSTA_NAO_ENCONTRADA, ErrorConstants.PROPOSTA_NAO_ENCONTRADA));
         }
 
-        if(!funcionarioResponse.getSetor().equals(propostaResponse.getSetor())){
+        if (!funcionarioResponse.getSetor().equals(propostaResponse.getSetor())) {
             return ValidarVoto.nao_pode_votar;
         }
         return ValidarVoto.pode_votar;

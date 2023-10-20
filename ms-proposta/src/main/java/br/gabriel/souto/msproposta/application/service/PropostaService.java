@@ -1,17 +1,18 @@
 package br.gabriel.souto.msproposta.application.service;
 
-import br.gabriel.souto.msproposta.infra.constants.ErrorConstants;
-import br.gabriel.souto.msproposta.domain.enums.ErrorCodes;
 import br.gabriel.souto.msproposta.application.dtos.PropostaDTO;
 import br.gabriel.souto.msproposta.application.interfaces.IPropostaService;
+import br.gabriel.souto.msproposta.domain.enums.ErrorCodes;
 import br.gabriel.souto.msproposta.domain.interfaces.IPropostaRepository;
 import br.gabriel.souto.msproposta.domain.model.Proposta;
+import br.gabriel.souto.msproposta.infra.constants.ErrorConstants;
 import br.gabriel.souto.msproposta.infra.exceptions.ExceptionResponse;
 import br.gabriel.souto.msproposta.infra.exceptions.PropostaNaoEncontradoExeception;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class PropostaService implements IPropostaService {
 
     private final IPropostaRepository _propostaRepository;
     private final ModelMapper _modelMapper;
+
     @Autowired
     public PropostaService(IPropostaRepository propostaRepository, ModelMapper modelMapper) {
         _propostaRepository = propostaRepository;
@@ -55,6 +57,7 @@ public class PropostaService implements IPropostaService {
                 .map(proposta -> _modelMapper.map(proposta, PropostaDTO.class))
                 .collect(Collectors.toList());
     }
+
     @Override
     @Scheduled(fixedRate = 20000)
     public void verificarTempo() {
@@ -66,7 +69,6 @@ public class PropostaService implements IPropostaService {
             }
         });
     }
-
 
 
 }

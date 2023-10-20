@@ -18,11 +18,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.FUNCIONARIO_NAO_ENCONTRADO, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
+
     @ExceptionHandler(FuncionarioJaExisteExeception.class)
     public final ResponseEntity<Object> handleFuncionarioJaExisteExeception(FuncionarioJaExisteExeception ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.FUNCIONARIO_JA_EXISTE, ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
+
     @ExceptionHandler(CpfInvalidoExeception.class)
     public final ResponseEntity<Object> handleCpfInvalidoExeception(CpfInvalidoExeception ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CPF_INVALIDO, ex.getMessage());

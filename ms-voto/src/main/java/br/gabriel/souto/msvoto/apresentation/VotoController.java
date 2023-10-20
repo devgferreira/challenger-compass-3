@@ -20,8 +20,8 @@ public class VotoController {
 
     @PostMapping("/funcionario/{funcionarioCpf}/proposta/{propostaId}")
     public ResponseEntity<String> votar(@PathVariable String funcionarioCpf,
-                                   @PathVariable Long propostaId,
-                                   @RequestBody VotoRequest status) throws JsonProcessingException {
+                                        @PathVariable Long propostaId,
+                                        @RequestBody VotoRequest status) throws JsonProcessingException {
         _votoService.votar(funcionarioCpf, propostaId, status.getStatus());
 
         return ResponseEntity.ok("Voto feito com sucesso");

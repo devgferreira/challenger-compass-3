@@ -20,13 +20,14 @@ public class FuncionarioController {
     }
 
     @PostMapping
-    public ResponseEntity<FuncionarioResponse> criarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO){
-        FuncionarioDTO funcionario =  _funcionarioService.criarFuncionario(funcionarioDTO);
+    public ResponseEntity<FuncionarioResponse> criarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) {
+        FuncionarioDTO funcionario = _funcionarioService.criarFuncionario(funcionarioDTO);
         FuncionarioResponse funcionarioResponse = new FuncionarioResponse(funcionario);
         return new ResponseEntity<>(funcionarioResponse, HttpStatus.CREATED);
     }
+
     @GetMapping("/{cpf}")
-    public ResponseEntity<FuncionarioResponse> buscarFuncionarioPorCpf(@PathVariable String cpf){
+    public ResponseEntity<FuncionarioResponse> buscarFuncionarioPorCpf(@PathVariable String cpf) {
         FuncionarioDTO funcionario = _funcionarioService.buscarFuncionarioPorCpf(cpf);
         FuncionarioResponse funcionarioResponse = new FuncionarioResponse(funcionario);
         return ResponseEntity.ok(funcionarioResponse);

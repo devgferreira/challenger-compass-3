@@ -11,13 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-    import org.mockito.junit.jupiter.MockitoExtension;
-    import org.modelmapper.ModelMapper;
-    import java.util.Optional;
-    import static org.junit.jupiter.api.Assertions.assertEquals;
-    import static org.junit.jupiter.api.Assertions.assertThrows;
-    import static org.mockito.ArgumentMatchers.anyString;
-    import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,7 @@ class FuncionarioServiceTest {
     private IFuncionarioRepository _funcionarioRepository;
     @Mock
     private ModelMapper _modelMapper;
+
     @Test
     void criarFuncionarioTest() {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "12345678901", "Gabriel", Setor.RH);
@@ -44,6 +47,7 @@ class FuncionarioServiceTest {
 
         assertEquals(result, funcionarioDTO);
     }
+
     @Test
     void criarFuncionario_ComCpf_ExistenteTest() {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
@@ -59,6 +63,7 @@ class FuncionarioServiceTest {
             _funcionarioService.criarFuncionario(funcionarioDTO);
         });
     }
+
     @Test
     void criarFuncionario_ComCpf_InvalidoTest() {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
@@ -72,6 +77,7 @@ class FuncionarioServiceTest {
             _funcionarioService.criarFuncionario(funcionarioDTO);
         });
     }
+
     @Test
     public void buscarFuncionarioPorCpfTest() {
         String cpf = "12345678900";
@@ -87,6 +93,7 @@ class FuncionarioServiceTest {
 
         assertEquals(funcionarioDTO, result);
     }
+
     @Test
     public void buscarFuncionarioPorCpf_Nao_Econtrado_Test() {
         String cpf = "12345678900";

@@ -3,7 +3,6 @@ package br.gabriel.souto.msproposta.apresentation;
 import br.gabriel.souto.msproposta.application.dtos.PropostaDTO;
 import br.gabriel.souto.msproposta.application.service.PropostaService;
 import br.gabriel.souto.msproposta.domain.enums.Setor;
-import br.gabriel.souto.msproposta.domain.model.Proposta;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +29,7 @@ class PropostaControllerTest {
     private ObjectMapper objectMapper;
     @MockBean
     private PropostaService propostaService;
+
     @Test
     void criarProposta() throws Exception {
         PropostaDTO propostaDTO = new PropostaDTO(1L, "Mesa quebrada", "Arrumar a messa quebrada no setor 5", Setor.RH);

@@ -11,12 +11,14 @@ public class MQConfig {
     private String emitirPropostaResultadoVotacaoFila;
     @Value("${mq.queues.emitir-resultado-votacao}")
     private String emitirResultadoVotacaoFila;
+
     @Bean
-    public Queue queueEmitirPropostaResultado(){
+    public Queue queueEmitirPropostaResultado() {
         return new Queue(emitirPropostaResultadoVotacaoFila, true);
     }
+
     @Bean
-    public Queue queueEmitirResultadoVotacao(){
+    public Queue queueEmitirResultadoVotacao() {
         return new Queue(emitirResultadoVotacaoFila, true);
     }
 }

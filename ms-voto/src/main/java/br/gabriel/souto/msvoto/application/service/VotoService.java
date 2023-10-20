@@ -51,35 +51,34 @@ public class VotoService implements IVotoService {
         Funcionario funcionario;
         Proposta proposta;
         try {
-             funcionario = _funcionarioControllerClient.buscarFuncionarioPorCpf(funcionarioCpf);
-        }
-        catch (FeignException.NotFound ex){
+            funcionario = _funcionarioControllerClient.buscarFuncionarioPorCpf(funcionarioCpf);
+        } catch (FeignException.NotFound ex) {
             throw new FuncionarioNaoEncontradoExeception(new ExceptionResponse(
                     ErrorCodes.FUNCIONARIO_NAO_ENCONTRADO, ErrorConstants.FUNCIONARIO_NAO_ENCONTRADO));
         }
-        try{
+        try {
             proposta = _propostaControllerClient.buscarPropostaPorId(propostaId);
 
-        }catch (FeignException.NotFound ex){
+        } catch (FeignException.NotFound ex) {
             throw new PropostaNaoEncontradoExeception(new ExceptionResponse(
                     ErrorCodes.PROPOSTA_NAO_ENCONTRADA, ErrorConstants.PROPOSTA_NAO_ENCONTRADA
             ));
         }
         String voto_valido = _validacaoVotoControllerClient.validarVoto(propostaId, funcionarioCpf);
 
-        if(voto_valido.equals("nao_pode_votar")){
+        if (voto_valido.equals("nao_pode_votar")) {
             throw new NaoPodeVotarExeception(new ExceptionResponse(ErrorCodes.NAO_PODE_VOTAR, ErrorConstants.NAO_PODE_VOTAR));
         }
 
-        if(proposta.isAberta()){
+        if (proposta.isAberta()) {
             Optional<Voto> votoExistente = _votoRepository.findByFuncionarioCpfAndPropostaId(
                     funcionario.getCpf(), proposta.getId());
-            if(votoExistente.isPresent()){
+            if (votoExistente.isPresent()) {
                 throw new FuncionarioJaVotoExeception(new ExceptionResponse(
                         ErrorCodes.FUNCIONARIO_JA_VOTO, ErrorConstants.FUNCIONARIO_JA_VOTO
                 ));
             }
-            if(status == null){
+            if (status == null) {
                 throw new VotoInvalidoExeception(new ExceptionResponse(ErrorCodes.VOTO_INVALIDO, ErrorConstants.VOTO_INVALIDO));
             }
             Voto novoVoto = new Voto();
@@ -90,7 +89,7 @@ public class VotoService implements IVotoService {
             _votoRepository.save(novoVoto);
         }
 
-        if(!proposta.isAberta()){
+        if (!proposta.isAberta()) {
             throw new VotacaoEncerradaExeception(new ExceptionResponse(
                     ErrorCodes.VOTACAO_ENCERRADA, ErrorConstants.VOTACAO_ENCERRADA
             ));
@@ -101,7 +100,7 @@ public class VotoService implements IVotoService {
             List<Proposta> propostas = _propostaControllerClient.buscarTodasAsPropostas();
             for (Proposta item : propostas) {
                 Proposta resultado = _propostaControllerClient.buscarPropostaPorId(item.getId());
-                if(!resultado.isAberta()){
+                if (!resultado.isAberta()) {
                     Long votosAprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.APROVADO);
                     Long votosReprovados = _votoRepository.countByPropostaIdAndStatus(resultado.getId(), VotoStatus.REPROVADO);
 
@@ -113,7 +112,7 @@ public class VotoService implements IVotoService {
                     try {
                         _emiterPropostaResultado.emitirPropostaResultado(resultado);
 
-                        if(!(item.getResultado().equals("Aprovado") || item.getResultado().equals("Reprovado"))){
+                        if (!(item.getResultado().equals("Aprovado") || item.getResultado().equals("Reprovado"))) {
                             String mensagem = "O resultado da votação foi: " + resultado.getResultado() +
                                     " para a proposta: " + resultado.getTitulo() + ", ID: " + resultado.getId();
                             _emitirResultadoVotacao.emitirVotacaoResultado(mensagem);

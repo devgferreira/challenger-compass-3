@@ -17,6 +17,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CPF_INVALIDO, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
+
     @ExceptionHandler(PropostaNaoEncontradoExeception.class)
     public final ResponseEntity<Object> handlePropostaNaoEncontradoExeception(PropostaNaoEncontradoExeception ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.PROPOSTA_NAO_ENCONTRADA, ex.getMessage());

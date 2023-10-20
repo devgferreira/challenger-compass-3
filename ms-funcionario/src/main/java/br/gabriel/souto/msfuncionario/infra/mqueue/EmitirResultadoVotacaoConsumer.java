@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class EmitirResultadoVotacaoConsumer {
-    @RabbitListener(queues = "${mq.queues.emitir-resultado-votacao}" )
-    public void receberResultadoVotacao(@Payload String payload){
+    @RabbitListener(queues = "${mq.queues.emitir-resultado-votacao}")
+    public void receberResultadoVotacao(@Payload String payload) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String mensagem = mapper.readValue(payload, String.class);

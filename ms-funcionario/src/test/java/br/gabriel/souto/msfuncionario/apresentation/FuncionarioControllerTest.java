@@ -26,6 +26,7 @@ class FuncionarioControllerTest {
     private ObjectMapper objectMapper;
     @MockBean
     private FuncionarioService funcionarioService;
+
     @Test
     void criarFuncionario() throws Exception {
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO(1L, "12345678901", "Gabriel", Setor.RH);

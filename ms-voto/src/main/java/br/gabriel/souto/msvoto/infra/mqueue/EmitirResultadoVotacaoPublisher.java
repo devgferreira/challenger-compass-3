@@ -23,7 +23,7 @@ public class EmitirResultadoVotacaoPublisher {
         _rabbitTemplate.convertAndSend(_queueEmitirResultadoVotacao.getActualName(), json);
     }
 
-    private String convertIntoJson(String mensagem) throws JsonProcessingException{
+    private String convertIntoJson(String mensagem) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(mensagem);
     }

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +16,7 @@ public class PropostaResponse {
     Setor setor;
     private boolean aberta;
     private String resultado;
+
     public PropostaResponse(PropostaDTO proposta) {
         id = proposta.getId();
         titulo = proposta.getTitulo();

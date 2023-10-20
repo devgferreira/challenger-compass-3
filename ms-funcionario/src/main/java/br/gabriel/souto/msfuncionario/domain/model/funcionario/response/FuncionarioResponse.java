@@ -17,9 +17,9 @@ public class FuncionarioResponse {
     Setor setor;
 
     public FuncionarioResponse(FuncionarioDTO funcionarioDTO) {
-        id =funcionarioDTO.getId();
-        cpf=funcionarioDTO.getCpf();
-        nome=funcionarioDTO.getNome();
-        setor=funcionarioDTO.getSetor();
+        id = funcionarioDTO.getId();
+        cpf = funcionarioDTO.getCpf();
+        nome = funcionarioDTO.getNome();
+        setor = funcionarioDTO.getSetor();
     }
 }

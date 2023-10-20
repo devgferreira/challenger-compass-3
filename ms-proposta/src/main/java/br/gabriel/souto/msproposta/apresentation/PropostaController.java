@@ -17,24 +17,27 @@ import java.util.List;
 public class PropostaController {
 
     private final IPropostaService _propostaService;
+
     @Autowired
     public PropostaController(IPropostaService propostaService) {
         _propostaService = propostaService;
     }
 
     @PostMapping
-    public ResponseEntity<PropostaResponse> criarProposta(@RequestBody PropostaDTO propostaDTO){
+    public ResponseEntity<PropostaResponse> criarProposta(@RequestBody PropostaDTO propostaDTO) {
 
         PropostaDTO proposta = _propostaService.criarProposta(propostaDTO);
         PropostaResponse propostaResponse = new PropostaResponse(proposta);
         return new ResponseEntity<>(propostaResponse, HttpStatus.CREATED);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<PropostaResponse> buscarPropostaPorId(@PathVariable Long id){
+    public ResponseEntity<PropostaResponse> buscarPropostaPorId(@PathVariable Long id) {
         PropostaDTO proposta = _propostaService.buscarPropostaPorId(id);
         PropostaResponse propostaResponse = new PropostaResponse(proposta);
         return ResponseEntity.ok(propostaResponse);
     }
+
     @GetMapping
     public ResponseEntity<List<PropostaDTO>> buscarTodasAsPropostas() {
         List<PropostaDTO> propostas = _propostaService.buscarTodasAsPropostas();

@@ -22,11 +22,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class PropostaServiceTest {
     @InjectMocks
@@ -53,7 +51,7 @@ class PropostaServiceTest {
     }
 
     @Test
-    void buscarPropostaPorId(){
+    void buscarPropostaPorId() {
         Long id = 1L;
         Proposta proposta = new Proposta();
         proposta.setId(id);
@@ -68,7 +66,7 @@ class PropostaServiceTest {
     }
 
     @Test
-    void buscarPropostaPorId_Nao_Encontrado(){
+    void buscarPropostaPorId_Nao_Encontrado() {
         Long id = 1L;
         when(_propostaRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -77,6 +75,7 @@ class PropostaServiceTest {
         });
 
     }
+
     @Test
     public void testBuscarTodasAsPropostas() {
         List<Proposta> propostas = Arrays.asList(new Proposta(), new Proposta());

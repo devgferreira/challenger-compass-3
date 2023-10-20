@@ -24,7 +24,7 @@ public class EmitirPropostaResultadoPublisher {
         _rabbitTemplate.convertAndSend(_queueEmitirPropostaResultado.getActualName(), json);
     }
 
-    private String convertIntoJson(Proposta dados) throws JsonProcessingException{
+    private String convertIntoJson(Proposta dados) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(dados);
     }

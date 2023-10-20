@@ -18,7 +18,7 @@ public class ValidacaoVotoController {
     }
 
     @GetMapping("propostas/{propostaId}/funcionarios/{funcionarioCpf}")
-    public String validarVoto(@PathVariable Long propostaId, @PathVariable String funcionarioCpf){
+    public String validarVoto(@PathVariable Long propostaId, @PathVariable String funcionarioCpf) {
         ValidarVoto validarVoto = _validacaoVotoService.validarVoto(propostaId, funcionarioCpf);
         return String.valueOf(validarVoto);
     }
