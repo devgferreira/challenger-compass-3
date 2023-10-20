@@ -41,6 +41,9 @@ public class ValidacaoVotoService implements IValidacaoVotoService {
         } catch (FeignException.NotFound ex) {
             throw new PropostaNaoEncontradoExeception(new ExceptionResponse(ErrorCodes.PROPOSTA_NAO_ENCONTRADA, ErrorConstants.PROPOSTA_NAO_ENCONTRADA));
         }
+        if(propostaResponse.getSetor() == null){
+            return ValidarVoto.pode_votar;
+        }
 
         if (!funcionarioResponse.getSetor().equals(propostaResponse.getSetor())) {
             return ValidarVoto.nao_pode_votar;

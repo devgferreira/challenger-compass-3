@@ -101,7 +101,7 @@ public class VotoService implements IVotoService {
 
         }, 0, 20, TimeUnit.SECONDS);
     }
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 20000)
     public void emitirResultadoVotacaoEemitirPropostaResultadoVotacao(){
         List<Proposta> propostas = _propostaControllerClient.buscarTodasAsPropostas();
         for (Proposta item : propostas) {
@@ -112,7 +112,10 @@ public class VotoService implements IVotoService {
 
                 if (votosAprovados > votosReprovados) {
                     resultado.setResultado("Aprovado");
-                } else {
+                } else if (votosReprovados > votosAprovados) {
+                    resultado.setResultado("Reprovado");
+                }
+                else {
                     resultado.setResultado("Reprovado");
                 }
                 try {
